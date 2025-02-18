@@ -66,7 +66,7 @@ def inference(current_time, video_embeddings, audio_embeddings, seed, device, ro
     logger.info('Start inference...')
     with torch.no_grad():       
         video_embeddings, audio_embeddings = video_embeddings.to(device), audio_embeddings.to(device)
-        model.load_state_dict(torch.load(f'./checkpoints/mm-metric/rank-{seed}-best.pth'))
+        model.load_state_dict(torch.load(f'./checkpoints/rank-{seed}-best.pth'))
         output = model(video_embeddings, audio_embeddings).detach().cpu().numpy()
 
         indices = nbrs.kneighbors(output, return_distance=False)
@@ -100,7 +100,7 @@ def infer(
     try:
         model = CMAFeatureModel(seed=seed, is_freeze=True)
         model = model.to(device)
-        model.load_state_dict(torch.load(f'./checkpoints/mm-metric/rank-{seed}-best.pth'))
+        model.load_state_dict(torch.load(f'./checkpoints/rank-{seed}-best.pth'))
         train_embeddings = np.load(f'./embeddings/rank-embedding-{seed}.npy')
         train_labels = np.load(f'./embeddings/rank-label-{seed}.npy')
         f = open(f'./embeddings/rank-reason-{seed}.txt', 'rb')
@@ -133,7 +133,7 @@ def infer(
                     continue
                 
                 video_embeddings, audio_embeddings = video_embeddings.to(device), audio_embeddings.to(device)
-                model.load_state_dict(torch.load(f'./checkpoints/mm-metric/rank-{seed}-best.pth'))
+                model.load_state_dict(torch.load(f'./checkpoints/rank-{seed}-best.pth'))
                 output = model(video_embeddings, audio_embeddings).detach().cpu().numpy()
 
                 indices = nbrs.kneighbors(output, return_distance=False)
@@ -280,7 +280,7 @@ def infer_from_stream(
     try:
         model = CMAFeatureModel(seed=seed, is_freeze=True)
         model = model.to(device)
-        model.load_state_dict(torch.load(f'./checkpoints/mm-metric/rank-{seed}-best.pth'))
+        model.load_state_dict(torch.load(f'./checkpoints/rank-{seed}-best.pth'))
         train_embeddings = np.load(f'./embeddings/rank-embedding-{seed}.npy')
         train_labels = np.load(f'./embeddings/rank-label-{seed}.npy')
         f = open(f'./embeddings/rank-reason-{seed}.txt', 'rb')
@@ -357,7 +357,7 @@ def infer_from_stream(
 
                             with torch.no_grad():
                                 video_embeddings, audio_embeddings = video_embeddings.to(device), audio_embeddings.to(device)
-                                model.load_state_dict(torch.load(f'./checkpoints/mm-metric/rank-{seed}-best.pth'))
+                                model.load_state_dict(torch.load(f'./checkpoints/rank-{seed}-best.pth'))
                                 output = model(video_embeddings, audio_embeddings).detach().cpu().numpy()
 
                                 indices = nbrs.kneighbors(output, return_distance=False)
